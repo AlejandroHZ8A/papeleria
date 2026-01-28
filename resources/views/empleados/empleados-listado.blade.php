@@ -20,6 +20,7 @@
   </div>
 
    <div class="mb-5">
+    
     <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Nombres</label>
     <input type="email" id="email-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400

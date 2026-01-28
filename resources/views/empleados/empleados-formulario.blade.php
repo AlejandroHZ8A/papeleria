@@ -7,6 +7,7 @@
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
     <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
         <!-- Start coding here -->
+        @foreach ($admins as $admin)
         <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div class="w-full md:w-1/2">
@@ -69,10 +70,10 @@
                     <tbody>
                         <tr class="border-b dark:border-gray-700">
                             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">1</th>
-                            <td class="px-4 py-3">Gerente</td>
-                            <td class="px-4 py-3">Cristian alfonso</td>
-                            <td class="px-4 py-3">Crisztians@gmail.com</td>
-                            <td class="px-4 py-3">2412412</td>
+                            <td class="px-4 py-3">{{ $administradores->rol }}</td>
+                            <td class="px-4 py-3">{{ $administradores->nombres }}</td>
+                            <td class="px-4 py-3">{{ $administradores->email }}</td>
+                            <td class="px-4 py-3">{{ $administradores->usuario }}</td>
                             <td class="px-4 py-3">Activo</td>
                             <td class="px-4 py-3 flex items-center justify-end">
                                 <button id="apple-imac-27-dropdown-button" data-dropdown-toggle="apple-imac-27-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
@@ -95,7 +96,7 @@
                                 </div>
                             </td>
                         </tr>
-                        
+                       <<!-- 
                         <tr class="border-b dark:border-gray-700">
                             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">2</th>
                             <td class="px-4 py-3">Ventas</td>
@@ -124,7 +125,7 @@
                                 </div>
                             </td>
                         </tr>
-                        
+                    -->
                         
                     </tbody>
                 </table>
@@ -171,6 +172,7 @@
                 </ul>
             </nav>
         </div>
+        @endforeach
     </div>
     </section>
 
