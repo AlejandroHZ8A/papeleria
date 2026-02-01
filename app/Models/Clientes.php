@@ -4,18 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Administrador extends Model
+class Empleado extends Model
 {
-    
-    //tablas
-  
-    protected $table = 'empleados';
-
-    //llave primaria
-
+    protected $table = 'clientes';
     protected $primaryKey = 'id';
-
-    //timestamps
-   
     public $timestamps = false;
 }

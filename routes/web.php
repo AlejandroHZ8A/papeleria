@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\AdminCreateController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,15 +11,13 @@ Route::get('/', function () {
 
 Route::view('/plantilla','/layouts/plantilla');
 
-
-
 Route::post('/login', function (Request $request) {
 
     $email = $request->email;
     $password = $request->password;
 
     if ($email === 'admin' && $password === 'admin') {
-        return redirect('/usuarios/ver-usuarios');
+        return redirect('/admin/index');
     }
 
     return redirect('/clientes/ver-clientes');
@@ -26,12 +25,12 @@ Route::post('/login', function (Request $request) {
 })->name('login.simple');
 
 
-Route::view('/clientes/crear-clientes',"clientes/clientes-formulario");
+//Route::view('/clientes/crear-clientes',"clientes/clientes-formulario");
 Route::view('/clientes/ver-clientes',"clientes/clientes-listado");
 
 
-Route::view('/usuarios/crear-usuarios',"empleados/empleados-listado");
-Route::view('/usuarios/ver-usuarios',"empleados/empleados-formulario");
+//Route::view('/empleados/crear-empleados',"empleados/empleados-listado");
+//Route::view('/empleados/ver-empleados',"empleados/empleados-formulario");
 
 Route::view('/usuarios/iniciar-sesion',"clientes/iniciar-sesion");
 Route::view('/inicio',"layouts/plantilla-principal");
@@ -39,7 +38,17 @@ Route::view('/inicio',"layouts/plantilla-principal");
 Route::view('/productos/crear-productos',"productos/productos-formulario");
 Route::view('/productos/ver-productos',"productos/productos-listado");
 
-//rutas controlador 
+//rutas controlador de administradores
 Route::get('/admin/index', [AdministradorController::class, 'index']);
 
+//rutas para ver y enviar el formulario de registro de los usuarios
+Route::get('/usuarios/create',[AdministradorController::class,'create']);
+Route::post('/admin/store', [AdministradorController::class,'store']);
+
+
 Route::get('/productos/index', [ProductosController::class, 'index']);
+
+
+//registro de nuevo empleado
+Route::get('/empleados/create', [AdminCreateController::class, 'create']);
+Route::post('/admin/store', [AdminCreateController::class, 'store']);

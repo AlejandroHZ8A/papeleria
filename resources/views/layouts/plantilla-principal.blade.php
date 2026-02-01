@@ -1561,7 +1561,7 @@
                 </li>
             </ul>
             <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2026 <a href="#"
-                    class="hover:underline">Papelería Lunery™ </a>Todos los derechos reservados.</span>
+                    class="hover:underline">Stationary Lunery™ </a>Todos los derechos reservados.</span>
         </div>
     </footer>
 </body>

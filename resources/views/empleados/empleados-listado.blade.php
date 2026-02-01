@@ -4,80 +4,117 @@
 
 @section('contenido')
 
-<form class="max-w-sm mx-auto">
-  <div class="mb-5">
-    <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Rol del empleado:</label>
-  <select id="countries" class="block py-2.5 px-0 w-full text-sm text-black bg-transparent
-       border-0 border-b-2 border-black-400
-       appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer">
-    <option selected>Empleado de mostrador</option>
-    <option value="US">Administador</option>
-    <option value="CA">Ventas</option>
-    <option value="FR">Proveedor</option>
-    <option value="DE">Materialista</option>
-  </select>
-  </div>
+    <form action="/admin/store" method="POST" enctype="multipart/form-data" class="max-w-sm mx-auto">
+        @csrf
+        <div class="mb-5">
+            <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Rol del
+                empleado:</label>
+            <select name="rol_id"
+                class="block py-2.5 px-0 w-full text-sm text-black bg-transparent
+    border-0 border-b-2 border-black-400
+    appearance-none focus:outline-none focus:ring-0
+    focus:border-white peer">
 
-   <div class="mb-5">
-    
-    <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Nombres</label>
-    <input type="email" id="email-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
+                <option value="">Seleccione un rol</option>
+
+                @foreach ($roles as $rol)
+                    <option value="{{ $rol->id }}">
+                        {{ $rol->nombre_rol }}
+                        {{ $rol->sueldo }}
+                    </option>
+                @endforeach
+            </select>
+
+        </div>
+
+        <div class="mb-10">
+            <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Nombres</label>
+            <input name="nombre" type="text" id="nombres"
+                class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer" placeholder="Pepe" required />
-  </div>
+       focus:border-white peer"
+                placeholder="Jose" required />
+        </div>
 
-  <div class="mb-5">
-    <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Apellido materno</label>
-    <input type="email" id="email-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
+        <div class="mb-10">
+            <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Apellido
+                materno</label>
+            <input name="apellido_m" type="text" id="apellido_materno"
+                class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer" placeholder="Navarro" required />
-  </div>
+       focus:border-white peer"
+                placeholder="Navarro" required />
+        </div>
 
-  <div class="mb-5">
-    <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Apellido paterno</label>
-    <input type="email" id="email-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
+        <div class="mb-10">
+            <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Apellido
+                paterno</label>
+            <input name="apellido_p" type="text" id="apellido_paterno"
+                class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer" placeholder="Navarro" required />
-  </div>
+       focus:border-white peer"
+                placeholder="Navarro" required />
+        </div>
 
-  <div class="mb-5">
-    <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Correo electronico</label>
-    <input type="email" id="email-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
+        <div class="mb-10">
+            <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Correo
+                electronico</label>
+            <input name="correo" type="email" id="correo_electronico"
+                class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer" placeholder="Navarro@gmail.com" required />
-  </div>
-  
-  <div class="mb-5">
-    <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Nombre de usuario</label>
-    <input type="email" id="email-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
+       focus:border-white peer"
+                placeholder="Navarro@gmail.com" required />
+        </div>
+
+        <div class="mb-10">
+            <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Usuario</label>
+            <input name="usuario" type="text" id="usuario"
+                class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer" placeholder="PEPE1212" required />
-  </div>
+       focus:border-white peer"
+                placeholder="Jose" required />
+        </div>
 
-
-  <div class="mb-5">
-    <label for="password-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white">Contraseña</label>
-    <input type="password" id="password-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
+        <div class="mb-10">
+            <label for="password-alternative"
+                class="block mb-2.5 text-sm font-medium text-heading text-white">Contraseña</label>
+            <input name="contrasena" type="password" id="contrasena_usuario"
+                class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer" placeholder="••••••••" required />
-  </div>
+       focus:border-white peer"
+                placeholder="••••••••" required />
+        </div>
 
-  <div class="mb-5">
-    <label for="password-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white">Confirmar contraseña</label>
-    <input type="password" id="password-alternative" class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
+        <div class="mb-10">
+            <label for="password-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white">Confirmar
+                contraseña</label>
+            <input name="contrasena_confirmar" type="password" id="contrasena_usuario_confirmar"
+                class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0
-       focus:border-white peer" placeholder="••••••••" required />
-  </div>
-  
-  <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">Crear cuenta</button>
-</form>
+       focus:border-white peer"
+                placeholder="••••••••" required />
+        </div>
+
+        <div class="mb-10 flex items-center">
+            <input name="estado_cliente" type="checkbox" id="estado_usuario_activo" value="1"
+                class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded
+                  focus:ring-primary-500 focus:ring-2">
+
+            <label for="estado_usuario_activo" class="ml-2 text-sm font-medium text-white">
+                Confirmo crear una cuenta nueva
+            </label>
+        </div>
+
+        <button type="submit"
+            class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">Crear
+            cuenta</button>
+    </form>
 
 @endsection
