@@ -4,11 +4,11 @@
 
 @section('contenido')
 
-    <form action="/admin/store" method="POST" enctype="multipart/form-data" class="max-w-sm mx-auto">
+    <form action="/clientes/store" method="POST" enctype="multipart/form-data" class="max-w-sm mx-auto">
         @csrf
         <div class="mb-10">
             <label for="email-alternative" class="block mb-2.5 text-sm font-medium text-heading text-white ">Nombre</label>
-            <input name="nombre" type="text" id="nombres"
+            <input name="nombres" type="text" id="nombres"
                 class="block py-2.5 px-0 w-full text-sm text-white bg-transparent
        border-0 border-b-2 border-gray-400
        appearance-none focus:outline-none focus:ring-0

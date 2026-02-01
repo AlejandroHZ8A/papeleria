@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Administrador;
 use App\Models\Clientes;
+use App\Models\Administrador;
 
-class AdministradorController extends Controller
+
+class AdminControlador extends Controller
 {
     public function index()
     {

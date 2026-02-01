@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\AdministradorController;
+use App\Http\Controllers\AdminControlador;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\AdminCreateController;
 
@@ -39,11 +40,11 @@ Route::view('/productos/crear-productos',"productos/productos-formulario");
 Route::view('/productos/ver-productos',"productos/productos-listado");
 
 //rutas controlador de administradores
-Route::get('/admin/index', [AdministradorController::class, 'index']);
+Route::get('/admin/index', [AdminControlador::class, 'index']);
 
 //rutas para ver y enviar el formulario de registro de los usuarios
-Route::get('/usuarios/create',[AdministradorController::class,'create']);
-Route::post('/admin/store', [AdministradorController::class,'store']);
+Route::get('/usuarios/create',[AdminControlador::class,'create']);
+Route::post('/clientes/store', [AdminControlador::class,'store']);
 
 
 Route::get('/productos/index', [ProductosController::class, 'index']);
