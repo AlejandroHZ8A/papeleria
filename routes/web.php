@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AdminControlador;
 use App\Http\Controllers\ProductosController;
@@ -47,9 +48,17 @@ Route::get('/usuarios/create',[AdminControlador::class,'create']);
 Route::post('/clientes/store', [AdminControlador::class,'store']);
 
 
+<<<<<<< HEAD
 Route::get('/productos/index', [ProductosController::class, 'index']);
 
 
 //registro de nuevo empleado
 Route::get('/empleados/create', [AdminCreateController::class, 'create']);
 Route::post('/admin/store', [AdminCreateController::class, 'store']);
+=======
+// Rutas de productos con controlador
+Route::get('/productos/index', [ProductosController::class, 'index'])->name('productos.index');
+Route::post('/productos', [ProductosController::class, 'store'])->name('productos.store');
+Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('productos.update');
+Route::delete('/productos/{id}', [ProductosController::class, 'destroy'])->name('productos.destroy');
+>>>>>>> 48de433 (lista de productos ocn insercion)

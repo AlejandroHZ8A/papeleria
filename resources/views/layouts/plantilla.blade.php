@@ -136,6 +136,8 @@
                     class="hover:underline">Stationary Lunery™ </a>Todos los derechos reservados.</span>
         </div>
     </footer>
-</body>
+
+
+  </body>
 
 </html>

@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Papeleria @yield('titulo-pagina')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Flowbite CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 
 </head>
 @yield('nav')
+
 <body class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
 
     {{-- navbar --}}
@@ -17,7 +20,8 @@
             <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                 <a href="/inicio" class="flex items-center">
                     <div class="h-10 w-10 rounded-full overflow-hidden">
-                        <img src="{{ asset('imagenes/logopapeleria.png') }}" class="h-full w-full object-cover" alt="Papeleria-Logo">
+                        <img src="{{ asset('imagenes/logopapeleria.png') }}" class="h-full w-full object-cover"
+                            alt="Papeleria-Logo">
                     </div>
                     <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white ml-4">stationery
                         lunery</span>
@@ -86,7 +90,8 @@
             <a href="#"
                 class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
                 <div class="h-10 w-10 rounded-full overflow-hidden">
-                    <img src="{{ asset('imagenes/logopapeleria.png') }}" class="h-full w-full object-cover" alt="Papeleria-Logo">
+                    <img src="{{ asset('imagenes/logopapeleria.png') }}" class="h-full w-full object-cover"
+                        alt="Papeleria-Logo">
                 </div>
                 <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white ml-4">stationery
                     lunery</span>
@@ -121,6 +126,47 @@
                     class="hover:underline">Papelería Lunery™ </a>Todos los derechos reservados.</span>
         </div>
     </footer>
+
+    <!-- Flowbite JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+    <!-- Inicializar Flowbite con debugging -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            console.log('Flowbite available:', typeof initFlowbite !== 'undefined');
+
+            if (typeof initFlowbite === 'function') {
+                initFlowbite();
+                console.log('Flowbite initialized');
+            } else {
+                console.error('initFlowbite is not available');
+
+                // Fallback: inicializar modal manualmente
+                const modalButton = document.getElementById('createProductButton');
+                const modal = document.getElementById('createProductModal');
+
+                if (modalButton && modal) {
+                    console.log('Setting up manual modal toggle');
+                    modalButton.addEventListener('click', function() {
+                        console.log('Button clicked');
+                        modal.classList.toggle('hidden');
+                        modal.classList.toggle('flex');
+                    });
+
+                    // Cerrar modal al hacer clic en el botón de cerrar
+                    const closeButtons = modal.querySelectorAll('[data-modal-toggle="createProductModal"]');
+                    closeButtons.forEach(button => {
+                        button.addEventListener('click', function() {
+                            modal.classList.add('hidden');
+                            modal.classList.remove('flex');
+                        });
+                    });
+                }
+            }
+        });
+    </script>
+
 </body>
 
 </html>

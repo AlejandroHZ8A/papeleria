@@ -1,4 +1,5 @@
-@extends('layouts.plantilla')
+
+3.@extends('layouts.plantilla')
 
 @section('titulo-pagina', 'Iniciar-Sesion')
 

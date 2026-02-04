@@ -6,15 +6,40 @@ use Illuminate\Database\Eloquent\Model;
 
 class Producto extends Model
 {
-    //tablas
-
+    // Tabla
     protected $table = 'productos';
 
-    //llave primaria
-
+    // Llave primaria
     protected $primaryKey = 'id';
 
-    //timestamps
-   
+    // Timestamps
     public $timestamps = false;
+
+    // Campos que se pueden asignar masivamente
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'precio',
+        'existencia',
+        'categoria_id',
+        'marca_id',
+        'proveedor_id',
+        'departamento_id'
+    ];
+
+    // Relaciones (opcional - descomentar cuando tengas los modelos)
+    // public function categoria()
+    // {
+    //     return $this->belongsTo(Categoria::class);
+    // }
+    
+    // public function marca()
+    // {
+    //     return $this->belongsTo(Marca::class);
+    // }
+    
+    // public function proveedor()
+    // {
+    //     return $this->belongsTo(Proveedor::class);
+    // }
 }
