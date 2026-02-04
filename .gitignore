@@ -1,5 +1,11 @@
 *.log
 .DS_Store
+<<<<<<< HEAD
+=======
+.env
+.env.backup
+.env.production
+>>>>>>> 3c69dce (Nuevo proyecto)
 .phpactor.json
 .phpunit.result.cache
 /.fleet

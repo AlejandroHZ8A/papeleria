@@ -6,6 +6,7 @@ use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AdminControlador;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\AdminCreateController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,3 +63,4 @@ Route::post('/productos', [ProductosController::class, 'store'])->name('producto
 Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('productos.update');
 Route::delete('/productos/{id}', [ProductosController::class, 'destroy'])->name('productos.destroy');
 
+Route::view('/inicio','/layouts/plantilla');
