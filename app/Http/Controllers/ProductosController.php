@@ -4,18 +4,54 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\categorias;
+use App\Models\Marcas;
+use App\Models\Departamentos;
 
 class ProductosController extends Controller
 {
     /**
      * Mostrar listado de productos
      */
-    public function index()
+    public function index(Request $request)
     {
         $productos = Producto::all();
         $TotalProductos = Producto::count();
+        $productos = Producto::with('categoria')->get();
+
+
+        $categorias = categorias::all();
+        $marcas = marcas::all();
+        $departamentos = departamentos::all();
+
+        // 1. Iniciamos la consulta base
+    $query = Producto::query();
+
+    // 2. Filtro por Buscador (Search)
+    $query->when($request->search, function ($q) use ($request) {
+        return $q->where('nombre', 'like', '%' . $request->search . '%')
+                 ->orWhere('descripcion', 'like', '%' . $request->search . '%');
+    });
+
+    // 3. Filtro por Categorías (Array)
+    $query->when($request->categories, function ($q) use ($request) {
+        // "WhereIn" busca cualquier producto cuyo category_id esté en la lista enviada
+        return $q->whereIn('categoria_id', $request->categories);
+    });
+
+    // 4. Filtro por Precio (Rango)
+    $query->when($request->min_price, function ($q) use ($request) {
+        return $q->where('precio', '>=', $request->min_price);
+    });
+    
+    $query->when($request->max_price, function ($q) use ($request) {
+        return $q->where('precio', '<=', $request->max_price);
+    });
+
+        $productosquery = $query->paginate(12)->withQueryString();
         
-        return view('productos.productos-listado', compact('productos', 'TotalProductos'));
+        
+        return view('productos.productos-listado', compact('productos', 'TotalProductos', 'categorias', 'marcas', 'departamentos', 'productosquery'));
     }
 
     /**
