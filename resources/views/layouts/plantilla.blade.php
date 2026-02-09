@@ -121,10 +121,21 @@
                                             Agregar administradores
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="/empleados/rol-empleados"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                            Ver tipos de empleado
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/empleados/crear-nuevo-rol"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                            Agregar nuevo tipo de empleado
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
-
 
                         <li class="relative group">
                             <!-- Botón principal -->
@@ -199,6 +210,36 @@
                             </div>
                         </li>
 
+                        <li class="relative group">
+                            <!-- Botón principal -->
+                            <button
+                                class="flex items-center py-2 pr-4 pl-3 text-gray-700 hover:text-primary-700
+               dark:text-gray-400 dark:hover:text-white">
+                                Clima/IP
+                                <svg class="w-4 h-4 ml-1 transition-transform group-hover:rotate-180" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <!-- Submenú -->
+                            <div
+                                class="absolute left-0 mt-2 w-44 rounded-lg bg-white shadow-lg
+               opacity-0 invisible group-hover:opacity-100 group-hover:visible
+               transition-all duration-200
+               dark:bg-gray-700 z-50">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                    <li>
+                                        <a href="/demo-apis"
+                                            class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                            Ver datos
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
 
                     </ul>
                 </div>
@@ -213,9 +254,6 @@
     {{-- Footer --}}
 
 
-<<<<<<< HEAD
-  </body>
-=======
 </body>
 >>>>>>> 3c69dce (Nuevo proyecto)
 

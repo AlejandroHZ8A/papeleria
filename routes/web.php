@@ -9,6 +9,9 @@ use App\Http\Controllers\AdminCreateController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\RolEmpleadoController;
+use App\Http\Controllers\ApiController;
+
 
 Route::get('/', function () {
     return view('layouts/plantilla');
