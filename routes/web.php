@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\RolEmpleadoController;
+use App\Http\Controllers\ApiController;
+
 
 Route::get('/', function () {
     return view('layouts/plantilla');
@@ -39,3 +42,20 @@ Route::post('/empleados/{id}/actualizar', [EmpleadosController::class,'update'])
 
 //borrar para empleados
 Route::delete('/empleados/{id}', [EmpleadosController::class,'destroy']);
+
+
+//rutas para tipos de empleado
+Route::get('/empleados/rol-empleados', [RolEmpleadoController::class, 'index']);
+Route::get('/empleados/crear-nuevo-rol',[RolEmpleadoController::class,'create']);
+Route::post('/empleados/mostrar-roles', [RolEmpleadoController::class,'store']);
+
+//editar tipo de empleado
+Route::get('/empleados/tipo-empleado/{id}/editar', [RolEmpleadoController::class,'edit']);
+Route::post('/empleados/tipo-empleado/{id}/actualizar', [RolEmpleadoController::class,'update']);
+
+//borrar tipo de empleado
+Route::delete('/empleados/tipo-empleado/{id}', [RolEmpleadoController::class,'destroy']);
+
+
+//ruta de la api para mostrar informacion
+Route::get('/demo-apis', [ApiController::class, 'index']);

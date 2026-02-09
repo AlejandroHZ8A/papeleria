@@ -97,4 +97,5 @@ class EmpleadosController extends Controller
         return redirect('/empleados')->with('success', 'Empleado eliminado correctamente');
     }
 
+    
 }

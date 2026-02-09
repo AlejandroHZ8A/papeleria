@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 
-@section('titulo-pagina', 'Lista de Empleados')
+@section('titulo-pagina', 'Lista de tipos de empleados')
 
 @section('contenido')
 
@@ -31,7 +31,6 @@
                     <div
                         class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
 
-
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -39,31 +38,19 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-4 py-3">ID</th>
-                                <th scope="col" class="px-4 py-3">Rol del empleado</th>
-                                <th scope="col" class="px-4 py-3">Nombre</th>
-                                <th scope="col" class="px-4 py-3">Correo</th>
-                                <th scope="col" class="px-4 py-3">Usuario</th>
-                                <th scope="col" class="px-4 py-3">Estado</th>
-                                <th scope="col" class="px-4 py-3">
-                                </th>
+                                <th scope="col" class="px-4 py-3">Nombres del tipo de empleado</th>
+                                <th scope="col" class="px-4 py-3">Sueldo</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($admins as $admin)
+                            @foreach ($rol as $roles)
                                 <tr class="border-b dark:border-gray-700">
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $admin->id }}</th>
-                                    <td class="px-4 py-3">{{ $admin->rol_id }}</td>
-                                    <td class="px-4 py-3">{{ $admin->nombre }}</td>
-                                    <td class="px-4 py-3">{{ $admin->correo }}</td>
-                                    <td class="px-4 py-3">{{ $admin->usuario }}</td>
+                                        {{ $roles->id }}</th>
+                                    <td class="px-4 py-3">{{ $roles->nombre_rol }}</td>
+                                    <td class="px-4 py-3">{{ $roles->sueldo }}</td>
                                     <td class="px-4 py-3">
-                                        @if ($admin->estado == 1)
-                                            Activo
-                                        @else
-                                            Inactivo
-                                        @endif
                                     </td>
                                     <td class="px-4 py-3 flex items-center justify-end relative group">
 
@@ -71,7 +58,7 @@
                                         <button
                                             class="inline-flex items-center p-0.5 text-sm font-medium
                text-gray-500 hover:text-gray-800 rounded-lg
-               dark:text-gray-400 dark:hover:text-gray-100 ">
+               dark:text-gray-400 dark:hover:text-gray-100">
                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -89,13 +76,13 @@
                dark:bg-gray-700">
                                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
                                                 <li>
-                                                    <a href="/empleados/{{ $admin->id }}/editar"
+                                                    <a href="/empleados/tipo-empleado/{{ $roles->id }}/editar"
                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
                                                         Editar
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <form action="/empleados/{{ $admin->id }}" method="POST"
+                                                    <form action="/empleados/tipo-empleado/{{ $roles->id }}" method="POST"
                                                         onsubmit="return confirm('¿Seguro que deseas eliminar este cliente?')">
                                                         @csrf
                                                         @method('DELETE')
@@ -105,11 +92,11 @@
                                                             Borrar
                                                         </button>
                                                     </form>
+
                                                 </li>
                                             </ul>
                                         </div>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
