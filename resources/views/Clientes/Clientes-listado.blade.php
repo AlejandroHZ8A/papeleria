@@ -38,6 +38,7 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-4 py-3">ID</th>
+                                <th scope="col" class="px-4 py-3">Foto de perfil</th>
                                 <th scope="col" class="px-4 py-3">Nombres</th>
                                 <th scope="col" class="px-4 py-3">apellido materno</th>
                                 <th scope="col" class="px-4 py-3">apellido paterno</th>
@@ -52,6 +53,7 @@
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $admin->id }}</th>
+                                    <td class="px-4 py-3"><img class="w-10 h-10 rounded-full" src={{ $admin->imagen }} alt="Rounded avatar"></td>
                                     <td class="px-4 py-3">{{ $admin->nombres }}</td>
                                     <td class="px-4 py-3">{{ $admin->apeliido_m }}</td>
                                     <td class="px-4 py-3">{{ $admin->apellido_p }}</td>

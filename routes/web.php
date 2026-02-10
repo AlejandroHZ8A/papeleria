@@ -8,7 +8,7 @@ use App\Http\Controllers\ApiController;
 
 
 Route::get('/', function () {
-    return view('layouts/plantilla');
+    return view('/Inicio');
 });
 
 //plantilla general esta se usa pa to y no se toca, es la vista principal
@@ -58,4 +58,4 @@ Route::delete('/empleados/tipo-empleado/{id}', [RolEmpleadoController::class,'de
 
 
 //ruta de la api para mostrar informacion
-Route::get('/demo-apis', [ApiController::class, 'index']);
+Route::get('/inicio', [ApiController::class, 'index']);

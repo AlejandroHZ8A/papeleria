@@ -11,7 +11,7 @@
         <div class="flex justify-between items-center mb-10">
             <h1 class="text-3xl font-bold  text-slate-50">Monitor de Red y Entorno</h1>
         </div>
-
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6 relative overflow-hidden group hover:shadow-md transition-all">

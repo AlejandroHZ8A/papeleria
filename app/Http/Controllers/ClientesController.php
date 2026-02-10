@@ -11,6 +11,7 @@ class ClientesController extends Controller
     {   //validacion en caso de que queramos mostrar solo los "activos" dentro del sistema.
         //$admins = Clientes::where('estado_cliente', 1)->get();
         $admins = clientes::all();
+        
         return view('/Clientes/Clientes-listado')->with('admins', $admins);
     }
 
@@ -35,14 +36,7 @@ class ClientesController extends Controller
         $admin->apellido_p = $req->apellido_p;
         $admin->correo = $req->correo;
         $admin->contrasena = $req->contrasena;
-
-        if ($req->hasFile('imagen')) {
-            $archivo = $req->file('imagen');
-            $nombre = time() . '_' . $archivo->getClientOriginalName();
-            $archivo->move(public_path('imagenes'), $nombre);
-
-            $admin->imagen = 'imagenes/' . $nombre;
-        }
+        $admin->imagen = '/imagenes/administradores/logopapeleria.png';
         $admin->estado = $req->estado;
         $admin->calle = $req->calle;
         $admin->num_int = $req->num_int;
@@ -52,6 +46,14 @@ class ClientesController extends Controller
         $admin->estado_cliente = $req->has('estado_cliente') ? 1 : 0;
 
         $admin->save();
+
+        if ($req->has('imagen')) {
+            $imagen = $req->imagen;
+            $nuevo_nombre = 'administrador_'.$admin->id.'.jpg';
+            $ruta = $imagen->storeAs('imagenes/administradores', $nuevo_nombre, 'public');
+            $admin->imagen = '/storage/'.$ruta;
+            $admin->save();
+        }
 
         return redirect('/clientes');
     }
@@ -80,14 +82,14 @@ class ClientesController extends Controller
         if ($req->filled('contrasena')) {
             $admin->contrasena = $req->contrasena;
         }
+        $admin->imagen = '/imagenes/administradores/default.jpg';
+        // if ($req->hasFile('imagen')) {
+        //     $archivo = $req->file('imagen');
+        //     $nombre = time() . '_' . $archivo->getClientOriginalName();
+        //     $archivo->move(public_path('imagenes'), $nombre);
 
-        if ($req->hasFile('imagen')) {
-            $archivo = $req->file('imagen');
-            $nombre = time() . '_' . $archivo->getClientOriginalName();
-            $archivo->move(public_path('imagenes'), $nombre);
-
-            $admin->imagen = 'imagenes/' . $nombre;
-        }
+        //     $admin->imagen = 'imagenes/' . $nombre;
+        // }
         $admin->estado = $req->estado;
         $admin->calle = $req->calle;
         $admin->num_int = $req->num_int;
@@ -97,6 +99,14 @@ class ClientesController extends Controller
         $admin->estado_cliente = $req->has('estado_cliente') ? 1 : 0;
 
         $admin->save();
+
+        if ($req->has('imagen')) {
+            $imagen = $req->imagen;
+            $nuevo_nombre = 'administrador_'.$admin->id.'.jpg';
+            $ruta = $imagen->storeAs('imagenes/administradores', $nuevo_nombre, 'public');
+            $admin->imagen = '/storage/'.$ruta;
+            $admin->save();
+        }
 
         return redirect('/clientes');
     }
