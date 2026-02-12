@@ -1,4 +1,4 @@
-@extends('layouts.plantilla-productos')
+@extends('layouts.plantilla')
 
 @section('titulo-pagina', 'Productos')
 
@@ -62,72 +62,90 @@
                             </svg>
                             Agregar producto
                         </button>
-                     <button id="filterDropdownButton" 
-        data-dropdown-toggle="filterDropdown" 
-        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-        type="button">
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-1.5 -ml-1 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
-    </svg>
-    Filtros
-    <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path clip-rule="evenodd" fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-    </svg>
-</button>
+                        <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
+                            class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                            type="button">
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                                class="h-4 w-4 mr-1.5 -ml-1 text-gray-400" viewbox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            Filtros
+                            <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path clip-rule="evenodd" fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            </svg>
+                        </button>
 
-<form action="{{ route('productos.index') }}" method="GET" id="filterForm">
-    <div id="filterDropdown" class="z-10 hidden px-3 pt-1 bg-white rounded-lg shadow w-80 dark:bg-gray-700 right-0">
-        
-        <div class="flex items-center justify-between pt-2">
-            <h6 class="text-sm font-medium text-black dark:text-white">Filtros</h6>
-            <a href="{{ route('productos.index') }}" class="text-sm font-medium text-primary-600 hover:underline">Clear all</a>
-        </div>
+                        <form action="{{ route('productos.index') }}" method="GET" id="filterForm">
+                            <div id="filterDropdown"
+                                class="z-10 hidden px-3 pt-1 bg-white rounded-lg shadow w-80 dark:bg-gray-700 right-0">
 
-        <div class="pt-3 pb-2">
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <input type="text" name="search" value="{{ request('search') }}" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search keywords...">
-            </div>
-        </div>
+                                <div class="flex items-center justify-between pt-2">
+                                    <h6 class="text-sm font-medium text-black dark:text-white">Filtros</h6>
+                                    <a href="{{ route('productos.index') }}"
+                                        class="text-sm font-medium text-primary-600 hover:underline">Clear all</a>
+                                </div>
 
-        <div id="accordion-flush" data-accordion="collapse" data-active-classes="text-black dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
-            
-            <h2 id="category-heading">
-                <button type="button" class="flex items-center justify-between w-full py-2 px-1.5 text-sm font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700" data-accordion-target="#category-body" aria-expanded="true" aria-controls="category-body">
-                    <span>Categoria</span>
-                    <svg aria-hidden="true" data-accordion-icon="" class="w-5 h-5 rotate-180 shrink-0" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                    </svg>
-                </button>
-            </h2>
-            <div id="category-body" class="hidden" aria-labelledby="category-heading">
-                <div class="py-2 font-light border-b border-gray-200 dark:border-gray-600">
-                    <ul class="space-y-2">
-                        @foreach($categorias as $categoria)
-                        <li class="flex items-center">
-                            <input id="cat-{{ $categoria->id }}" 
-                                   type="checkbox" 
-                                   name="categories[]" 
-                                   value="{{ $categoria->id }}" 
-                                   onchange="this.form.submit()"
-                                   {{ in_array($categoria->id, request('categories', [])) ? 'checked' : '' }}
-                                   class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="cat-{{ $categoria->id }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {{ $categoria->nombre }}
-                            </label>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-            
-            </div>
-    </div>
-</form>
+                                <div class="pt-3 pb-2">
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                                fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <input type="text" name="search" value="{{ request('search') }}"
+                                            class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Search keywords...">
+                                    </div>
+                                </div>
+
+                                <div id="accordion-flush" data-accordion="collapse"
+                                    data-active-classes="text-black dark:text-white"
+                                    data-inactive-classes="text-gray-500 dark:text-gray-400">
+
+                                    <h2 id="category-heading">
+                                        <button type="button"
+                                            class="flex items-center justify-between w-full py-2 px-1.5 text-sm font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
+                                            data-accordion-target="#category-body" aria-expanded="true"
+                                            aria-controls="category-body">
+                                            <span>Categoria</span>
+                                            <svg aria-hidden="true" data-accordion-icon=""
+                                                class="w-5 h-5 rotate-180 shrink-0" fill="currentColor"
+                                                viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                            </svg>
+                                        </button>
+                                    </h2>
+                                    <div id="category-body" class="hidden" aria-labelledby="category-heading">
+                                        <div class="py-2 font-light border-b border-gray-200 dark:border-gray-600">
+                                            <ul class="space-y-2">
+                                                @foreach ($categorias as $categoria)
+                                                    <li class="flex items-center">
+                                                        <input id="cat-{{ $categoria->id }}" type="checkbox"
+                                                            name="categories[]" value="{{ $categoria->id }}"
+                                                            onchange="this.form.submit()"
+                                                            {{ in_array($categoria->id, request('categories', [])) ? 'checked' : '' }}
+                                                            class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                                        <label for="cat-{{ $categoria->id }}"
+                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                                            {{ $categoria->nombre }}
+                                                        </label>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -145,7 +163,7 @@
                                 <th scope="col" class="p-4">Categoria</th>
                                 <th scope="col" class="p-4">Stock</th>
                                 <th scope="col" class="p-4">Precio</th>
-                                <th scope="col" class="p-4" >Acciones</th>
+                                <th scope="col" class="p-4">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -188,7 +206,8 @@
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div class="flex items-center space-x-4">
-                                            <button type="button" data-drawer-target="drawer-update-product-{{ $producto->id }}"
+                                            <button type="button"
+                                                data-drawer-target="drawer-update-product-{{ $producto->id }}"
                                                 data-drawer-show="drawer-update-product-{{ $producto->id }}"
                                                 aria-controls="drawer-update-product-{{ $producto->id }}"
                                                 class="py-2 px-3 flex items-center text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -236,7 +255,7 @@
                 <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
                     aria-label="Table navigation">
                     <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                      Mostrando
+                        Mostrando
                         <span class="font-semibold text-gray-900 dark:text-white">{{ $TotalProductos }}</span>
                         de
                         <span class="font-semibold text-gray-900 dark:text-white">{{ $TotalProductos }} Productos</span>
@@ -433,7 +452,8 @@
             class="fixed top-0 left-0 z-40 w-full h-screen max-w-3xl p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800"
             tabindex="-1" aria-labelledby="drawer-update-product-label" aria-hidden="true">
             <h5 id="drawer-label-{{ $producto->id }}"
-                class="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">Nuevo Producto</h5>
+                class="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">
+                Nuevo Producto</h5>
             <button type="button" data-drawer-dismiss="drawer-update-product-{{ $producto->id }}"
                 aria-controls="drawer-update-product-{{ $producto->id }}"
                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -448,7 +468,8 @@
             <div class="grid gap-4 sm:grid-cols-3 sm:gap-6 ">
                 <div class="space-y-4 sm:col-span-2 sm:space-y-6">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                        <label for="name"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
                         <input type="text" name="name" id="name"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             value={{ $producto->nombre }} placeholder="Type product name" required="">
@@ -634,7 +655,9 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected="">Selecciona una categoria</option>
                             @foreach ($categorias as $categoria)
-                                <option value="{{ $categoria->id }}"{{ $categoria->id == $producto->categoria_id   ? 'selected' : '' }}>{{ $categoria->nombre }}</option>
+                                <option
+                                    value="{{ $categoria->id }}"{{ $categoria->id == $producto->categoria_id ? 'selected' : '' }}>
+                                    {{ $categoria->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -645,16 +668,18 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                             <option selected="">Selecciona una marca</option>
                             @foreach ($marcas as $marca)
-                                <option value="{{ $marca->id }}"{{ $marca->id == $producto->marca_id   ? 'selected' : '' }}>{{ $marca->nombre }}</option>
+                                <option
+                                    value="{{ $marca->id }}"{{ $marca->id == $producto->marca_id ? 'selected' : '' }}>
+                                    {{ $marca->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mt-6 sm:w-1/2">
-                <button type="submit"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-100 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Actualizar
-                producto</button>
-            </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mt-6 sm:w-1/2">
+                    <button type="submit"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-100 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Actualizar
+                        producto</button>
+                </div>
         </form>
         <!-- Preview Drawer -->
 
@@ -760,7 +785,7 @@
                         <path fill-rule="evenodd" clip-rule="evenodd"
                             d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" />
                     </svg>
-                   Borrar
+                    Borrar
                 </button>
             </div>
         </div>
@@ -783,19 +808,19 @@
                     </button>
                     <div class="p-6 text-center">
                         <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200"
-                            fill="none" stroke="currentColor" viewbox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
+                            fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Estas seguro que quieres eliminar este producto?</h3>
+                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Estas seguro que quieres
+                            eliminar este producto?</h3>
                         <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                        <button data-modal-toggle="delete-modal-{{ $producto->id }}"
-                            type="submit"
-                            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">Si estoy seguro
-                        </button>
+                            <button data-modal-toggle="delete-modal-{{ $producto->id }}" type="submit"
+                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">Si
+                                estoy seguro
+                            </button>
                         </form>
                         <button data-modal-toggle="delete-modal-{{ $producto->id }}" type="button"
                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
@@ -805,7 +830,7 @@
             </div>
         </div>
     @endforeach
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
     <script src="/tailwind.config.js"></script>
+
 @endsection

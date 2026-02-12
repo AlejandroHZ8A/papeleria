@@ -10,12 +10,10 @@ use App\Http\Controllers\ProductosController;
 
 
 
-Route::get('/', function () {
- //   return view('/Inicio');
-});
+Route::get('/', [ApiController::class, 'index']);
 
 //plantilla general esta se usa pa to y no se toca, es la vista principal
-//Route::view('/plantilla','/layouts/plantilla');
+Route::view('/plantilla','/layouts/plantilla');
 
 
 //rutas para empleados
@@ -63,12 +61,9 @@ Route::delete('/empleados/tipo-empleado/{id}', [RolEmpleadoController::class,'de
 //ruta de la api para mostrar informacion
 Route::get('/inicio', [ApiController::class, 'index']);
 
-//Route::view('/plantilla','/layouts/plantilla');
 
-
-
-//Route::view('/productos/crear-productos',"productos/productos-formulario");
-//Route::view('/productos/ver-productos',"productos/productos-listado");
+Route::view('/productos/crear-productos',"productos/productos-formulario");
+Route::view('/productos/ver-productos',"productos/productos-listado");
 
 
 // Rutas de productos con controlador
