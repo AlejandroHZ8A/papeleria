@@ -11,67 +11,17 @@ use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\RolEmpleadoController;
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\AuthAdministradorController;
-use Laravel\Socialite\Facades\Socialite;
-
-//ruta linkeada a la vista principal, es el formulario para iniciar sesion.
-Route::get('/', [AuthAdministradorController::class, 'Formulario']);
-
-
-Route::view('/plantilla','/layouts/plantilla');
-
-Route::post('/login', function (Request $request) {
-
-    $email = $request->email;
-    $password = $request->password;
-
-    if ($email === 'admin' && $password === 'admin') {
-        return redirect('/admin/index');
-    }
-
-    return redirect('/clientes/ver-clientes');
-
-})->name('login.simple');
-
-
-//Route::view('/clientes/crear-clientes',"clientes/clientes-formulario");
-Route::view('/clientes/ver-clientes',"clientes/clientes-listado");
-
-
-//Route::view('/empleados/crear-empleados',"empleados/empleados-listado");
-//Route::view('/empleados/ver-empleados',"empleados/empleados-formulario");
-
-Route::view('/usuarios/iniciar-sesion',"clientes/iniciar-sesion");
-Route::view('/inicio',"layouts/plantilla-principal");
-
-Route::view('/productos/crear-productos',"productos/productos-formulario");
-Route::view('/productos/ver-productos',"productos/productos-listado");
-
-//rutas controlador de administradores
-Route::get('/admin/index', [AdminControlador::class, 'index']);
-
-//rutas para ver y enviar el formulario de registro de los usuarios
-Route::get('/usuarios/create',[AdminControlador::class,'create']);
-Route::post('/clientes/store', [AdminControlador::class,'store']);
+use App\Http\Controllers\ProductosController;
 
 
 
-Route::get('/productos/index', [ProductosController::class, 'index']);
 
+Route::get('/', function () {
+ //   return view('/Inicio');
+});
 
-//registro de nuevo empleado
-Route::get('/empleados/create', [AdminCreateController::class, 'create']);
-Route::post('/admin/store', [AdminCreateController::class, 'store']);
-
-// Rutas de productos con controlador
-Route::get('/productos/index', [ProductosController::class, 'index'])->name('productos.index');
-Route::post('/productos', [ProductosController::class, 'store'])->name('productos.store');
-Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('productos.update');
-Route::delete('/productos/{id}', [ProductosController::class, 'destroy'])->name('productos.destroy');
-
-Route::view('/inicio','/layouts/plantilla');
 //plantilla general esta se usa pa to y no se toca, es la vista principal
-Route::view('/plantilla', '/layouts/plantilla');
+//Route::view('/plantilla','/layouts/plantilla');
 
 
 //rutas para empleados
@@ -118,3 +68,19 @@ Route::delete('/empleados/tipo-empleado/{id}', [RolEmpleadoController::class, 'd
 
 //ruta de la api para mostrar informacion
 Route::get('/inicio', [ApiController::class, 'index']);
+
+//Route::view('/plantilla','/layouts/plantilla');
+
+
+
+//Route::view('/productos/crear-productos',"productos/productos-formulario");
+//Route::view('/productos/ver-productos',"productos/productos-listado");
+
+
+// Rutas de productos con controlador
+Route::get('/productos/index', [ProductosController::class, 'index'])->name('productos.index');
+Route::post('/productos', [ProductosController::class, 'store'])->name('productos.store');
+Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('productos.update');
+Route::delete('/productos/{id}', [ProductosController::class, 'destroy'])->name('productos.destroy');
+
+
