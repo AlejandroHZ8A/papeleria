@@ -36,7 +36,7 @@ class ClientesController extends Controller
         $admin->apellido_p = $req->apellido_p;
         $admin->correo = $req->correo;
         $admin->contrasena = $req->contrasena;
-        $admin->imagen = '/imagenes/administradores/logopapeleria.png';
+        $admin->imagen = '/imagenes/logopapeleria.png';
         $admin->estado = $req->estado;
         $admin->calle = $req->calle;
         $admin->num_int = $req->num_int;
@@ -49,8 +49,8 @@ class ClientesController extends Controller
 
         if ($req->has('imagen')) {
             $imagen = $req->imagen;
-            $nuevo_nombre = 'administrador_'.$admin->id.'.jpg';
-            $ruta = $imagen->storeAs('imagenes/administradores', $nuevo_nombre, 'public');
+            $nuevo_nombre = 'clientes'.$admin->id.'.jpg';
+            $ruta = $imagen->storeAs('imagenes/clientes', $nuevo_nombre, 'public');
             $admin->imagen = '/storage/'.$ruta;
             $admin->save();
         }
@@ -83,13 +83,6 @@ class ClientesController extends Controller
             $admin->contrasena = $req->contrasena;
         }
         $admin->imagen = '/imagenes/administradores/default.jpg';
-        // if ($req->hasFile('imagen')) {
-        //     $archivo = $req->file('imagen');
-        //     $nombre = time() . '_' . $archivo->getClientOriginalName();
-        //     $archivo->move(public_path('imagenes'), $nombre);
-
-        //     $admin->imagen = 'imagenes/' . $nombre;
-        // }
         $admin->estado = $req->estado;
         $admin->calle = $req->calle;
         $admin->num_int = $req->num_int;

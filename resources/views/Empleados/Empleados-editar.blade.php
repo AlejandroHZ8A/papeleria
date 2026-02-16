@@ -90,6 +90,26 @@
         </div>
 
         <div class="mb-10">
+            <label class="block mb-2.5 text-sm font-medium text-white">
+                Foto de perfil
+            </label>
+            @if ($empleado->imagen)
+                <div class="mb-6">
+                    <p class="text-sm text-white mb-2">Imagen actual:</p>
+                    <img src="{{ asset($empleado->imagen) }}"
+                        class="w-32 h-32 object-cover rounded-full border border-gray-400">
+                </div>
+            @endif
+            <input name="imagen" type="file" accept="image/*"
+                class="block m-10 w-full text-sm text-gray-300
+               file:mr-4 file:py-2 file:px-4
+               file:rounded-full file:border-0
+               file:text-sm file:font-semibold
+               file:bg-white file:text-gray-800
+               hover:file:bg-gray-200" />
+        </div>
+
+        <div class="mb-10">
             <label for="password-alternative"
                 class="block mb-2.5 text-sm font-medium text-heading text-white">Contraseña</label>
             <input name="contrasena" type="password" id="contrasena_usuario" value="{{ $empleado->contrasena }}"

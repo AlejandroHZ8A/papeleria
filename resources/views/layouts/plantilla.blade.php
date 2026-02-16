@@ -218,6 +218,50 @@
     {{-- contenido dinamico --}}
     @yield('contenido')
 
+
+    
+    {{-- footer --}}
+    <footer class="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
+        <div class="mx-auto max-w-screen-xl text-center">
+            <a href="/inicio"
+                class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
+                <div class="h-10 w-10 rounded-full overflow-hidden">
+                    <img src="imagenes/logopapeleria.png" class="h-full w-full object-cover" alt="Papeleria-Logo">
+                </div>
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white ml-4">stationery
+                    lunery</span>
+            </a>
+            <p class="my-6 text-gray-500 dark:text-gray-400">La información proporcionada en este sitio es utilizada
+                únicamente para fines de contacto
+                y atención al cliente. No compartimos datos personales con terceros.</p>
+            <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Sobre Nosotros</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Facebook</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6 ">Instagram</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">WhatsApp</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Preguntas frecuentes</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Contacto</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4 hover:underline md:mr-6">Inicio</a>
+                </li>
+            </ul>
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2026 <a href="#"
+                    class="hover:underline">Papelería Lunery™ </a>Todos los derechos reservados.</span>
+        </div>
+    </footer>
+
 </body>
 
 </html>
