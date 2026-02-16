@@ -5,57 +5,70 @@ use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\RolEmpleadoController;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\AuthAdministradorController;
+use Laravel\Socialite\Facades\Socialite;
 
+//ruta linkeada a la vista principal, es el formulario para iniciar sesion.
+Route::get('/', [AuthAdministradorController::class, 'Formulario']);
 
-Route::get('/', function () {
-    return view('/Inicio');
-});
 
 //plantilla general esta se usa pa to y no se toca, es la vista principal
-Route::view('/plantilla','/layouts/plantilla');
+Route::view('/plantilla', '/layouts/plantilla');
 
 
 //rutas para empleados
 Route::get('/empleados', [EmpleadosController::class, 'index']);
-Route::get('/empleados/crear-cuenta', [EmpleadosController::class, 'create'] );
+Route::get('/empleados/crear-cuenta', [EmpleadosController::class, 'create']);
 Route::post('/empleados/mostrar-cuentas', [EmpleadosController::class, 'store']);
 
 
 //rutas para clientes
 Route::get('/clientes', [ClientesController::class, 'index']);
-Route::get('/clientes/crear-cuenta',[ClientesController::class,'create']);
-Route::post('/clientes/mostrar-clientes', [ClientesController::class,'store']);
+Route::get('/clientes/crear-cuenta', [ClientesController::class, 'create']);
+Route::post('/clientes/mostrar-clientes', [ClientesController::class, 'store']);
 
 
 //editar clientes
-Route::get('/clientes/{id}/editar', [ClientesController::class,'edit']);
-Route::post('/clientes/{id}/actualizar', [ClientesController::class,'update']);
+Route::get('/clientes/{id}/editar', [ClientesController::class, 'edit']);
+Route::post('/clientes/{id}/actualizar', [ClientesController::class, 'update']);
 
 //borrar para clientes
-Route::delete('/clientes/{id}', [ClientesController::class,'destroy']);
+Route::delete('/clientes/{id}', [ClientesController::class, 'destroy']);
 
 
 
 //editar empleados
-Route::get('/empleados/{id}/editar', [EmpleadosController::class,'edit']);
-Route::post('/empleados/{id}/actualizar', [EmpleadosController::class,'update']);
+Route::get('/empleados/{id}/editar', [EmpleadosController::class, 'edit']);
+Route::post('/empleados/{id}/actualizar', [EmpleadosController::class, 'update']);
 
 //borrar para empleados
-Route::delete('/empleados/{id}', [EmpleadosController::class,'destroy']);
+Route::delete('/empleados/{id}', [EmpleadosController::class, 'destroy']);
 
 
 //rutas para tipos de empleado
 Route::get('/empleados/rol-empleados', [RolEmpleadoController::class, 'index']);
-Route::get('/empleados/crear-nuevo-rol',[RolEmpleadoController::class,'create']);
-Route::post('/empleados/mostrar-roles', [RolEmpleadoController::class,'store']);
+Route::get('/empleados/crear-nuevo-rol', [RolEmpleadoController::class, 'create']);
+Route::post('/empleados/mostrar-roles', [RolEmpleadoController::class, 'store']);
 
 //editar tipo de empleado
-Route::get('/empleados/tipo-empleado/{id}/editar', [RolEmpleadoController::class,'edit']);
-Route::post('/empleados/tipo-empleado/{id}/actualizar', [RolEmpleadoController::class,'update']);
+Route::get('/empleados/tipo-empleado/{id}/editar', [RolEmpleadoController::class, 'edit']);
+Route::post('/empleados/tipo-empleado/{id}/actualizar', [RolEmpleadoController::class, 'update']);
 
 //borrar tipo de empleado
-Route::delete('/empleados/tipo-empleado/{id}', [RolEmpleadoController::class,'destroy']);
+Route::delete('/empleados/tipo-empleado/{id}', [RolEmpleadoController::class, 'destroy']);
 
 
 //ruta de la api para mostrar informacion
-Route::get('/inicio', [ApiController::class, 'index']);
+Route::get('/inicio', [ApiController::class, 'index'])->name('dashboard');
+
+//rutas para el incio de sesion auth
+Route::get('/iniciar-sesion/formulario', [AuthAdministradorController::class, 'Formulario']);
+Route::post('/iniciar-sesion/login', [AuthAdministradorController::class, 'Login']);
+Route::post('/iniciar-sesion/logout', [AuthAdministradorController::class, 'Logout']);
+
+//Ruta para api de inicio de sesion con google
+Route::get('/auth/google', function () {
+    return Socialite::driver('google')->stateless()->redirect();
+});
+
+Route::get('/auth/google/callback', [AuthAdministradorController::class, 'handleGoogleCallback']);

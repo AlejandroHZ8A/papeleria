@@ -86,6 +86,20 @@
        appearance-none focus:outline-none focus:ring-0
        focus:border-white peer"
                 placeholder="Jose" required />
+        </div>´
+
+        <div class="mb-10">
+            <label class="block mb-2.5 text-sm font-medium text-white">
+                Foto de perfil
+            </label>
+
+            <input name="imagen" type="file" accept="image/*"
+                class="block m-10 w-full text-sm text-gray-300
+               file:mr-4 file:py-2 file:px-4
+               file:rounded-full file:border-0
+               file:text-sm file:font-semibold
+               file:bg-white file:text-gray-800
+               hover:file:bg-gray-200" />
         </div>
 
         <div class="mb-10">

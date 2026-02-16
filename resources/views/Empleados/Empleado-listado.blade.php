@@ -39,6 +39,7 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-4 py-3">ID</th>
+                                <th scope="col" class="px-4 py-3">Foto de perfil</th>
                                 <th scope="col" class="px-4 py-3">Rol del empleado</th>
                                 <th scope="col" class="px-4 py-3">Nombre</th>
                                 <th scope="col" class="px-4 py-3">Correo</th>
@@ -54,7 +55,9 @@
                                     <th scope="row"
                                         class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $admin->id }}</th>
-                                    <td class="px-4 py-3">{{ $admin->rol_id }}</td>
+                                    <td class="px-4 py-3"><img class="w-15 h-10 rounded-full" src={{ $admin->imagen }}
+                                            alt="Rounded avatar"></td>
+                                    <td class="px-4 py-3">{{ $admin->rol->nombre_rol }}</td>
                                     <td class="px-4 py-3">{{ $admin->nombre }}</td>
                                     <td class="px-4 py-3">{{ $admin->correo }}</td>
                                     <td class="px-4 py-3">{{ $admin->usuario }}</td>

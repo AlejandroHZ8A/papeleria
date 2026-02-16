@@ -12,7 +12,7 @@ class EmpleadosController extends Controller
 
     public function index()
     {
-        $admins = Empleados::all();
+        $admins = Empleados::with('rol')->get();
         return view('Empleados/Empleado-listado')->with('admins', $admins);
     }
 
@@ -42,9 +42,18 @@ class EmpleadosController extends Controller
         $admin->contrasena = $req->contrasena;
         $admin->rol_id = $req->rol_id;
         $admin->estado = $req->has('estado_cliente') ? 1 : 0;
+        $admin->imagen = '/imagenes/logopapeleria.png';
 
 
         $admin->save();
+
+        if ($req->has('imagen')) {
+            $imagen = $req->imagen;
+            $nuevo_nombre = 'empleado'.$admin->id.'.jpg';
+            $ruta = $imagen->storeAs('imagenes/empleado', $nuevo_nombre, 'public');
+            $admin->imagen = '/storage/'.$ruta;
+            $admin->save();
+        }
 
         return redirect('/empleados');
     }
@@ -76,9 +85,16 @@ class EmpleadosController extends Controller
         }
         $admin->rol_id = $req->rol_id;
         $admin->estado = $req->has('estado_cliente') ? 1 : 0;
-
+        $admin->imagen = '/imagenes/logopapeleria.png';
 
         $admin->save();
+        if ($req->has('imagen')) {
+            $imagen = $req->imagen;
+            $nuevo_nombre = 'empleado'.$admin->id.'.jpg';
+            $ruta = $imagen->storeAs('imagenes/empleado', $nuevo_nombre, 'public');
+            $admin->imagen = '/storage/'.$ruta;
+            $admin->save();
+        }
 
         return redirect('/empleados');
     }
