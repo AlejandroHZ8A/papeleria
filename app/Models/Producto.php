@@ -32,5 +32,15 @@ class Producto extends Model
         return $this->belongsTo(categorias::class);
     }
 
+    public function marca()
+    {
+        return $this->belongsTo(Marcas::class);
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamentos::class);
+    }
+
 
 }

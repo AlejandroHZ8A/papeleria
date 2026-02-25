@@ -6,6 +6,9 @@ use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\RolEmpleadoController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\DepartamentosController;
+use App\Http\Controllers\MarcasController;
 
 
 
@@ -71,5 +74,14 @@ Route::get('/productos/index', [ProductosController::class, 'index'])->name('pro
 Route::post('/productos', [ProductosController::class, 'store'])->name('productos.store');
 Route::put('/productos/{id}', [ProductosController::class, 'update'])->name('productos.update');
 Route::delete('/productos/{id}', [ProductosController::class, 'destroy'])->name('productos.destroy');
+
+//rutas para categorias
+Route::post('/categorias', [CategoriasController::class, 'store'])->name('categorias.store');
+
+//rutas para departamentos
+Route::post('/departamentos', [DepartamentosController::class, 'store'])->name('departamentos.store');
+
+//rutas para marcas
+Route::post('/marcas', [MarcasController::class, 'store'])->name('marcas.store');
 
 

@@ -75,6 +75,21 @@ class ProductosController extends Controller
         return redirect()->route('productos.index')
             ->with('success', 'Producto creado exitosamente');
     }
+           /**
+     * Guardar una nueva categoria
+     */
+    public function storecategoria(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'imagen' => 'nullable|string',
+        ]);
+
+        $categoria = Categorias::create($validatedData);
+
+        return redirect()->route('productos.index')
+            ->with('success', 'Categoria creada exitosamente');
+    }
 
     /**
      * Actualizar un producto existente
