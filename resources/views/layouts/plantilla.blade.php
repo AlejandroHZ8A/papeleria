@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Papeleria @yield('titulo-pagina')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     
 
 </head>
@@ -169,7 +171,7 @@
             <a href="/inicio"
                 class="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white">
                 <div class="h-10 w-10 rounded-full overflow-hidden">
-                    <img src="imagenes/logopapeleria.png" class="h-full w-full object-cover" alt="Papeleria-Logo">
+                    <img src="{{ asset('imagenes/logopapeleria.png') }}" class="h-full w-full object-cover" alt="Papeleria-Logo">
                 </div>
                 <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white ml-4">stationery
                     lunery</span>
@@ -205,7 +207,9 @@
         </div>
     </footer>
 
+     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
 </body>
+ 
 </html>
 =======
                     class="hover:underline">Stationary Lunery™ </a>Todos los derechos reservados.</span>
