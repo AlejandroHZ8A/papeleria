@@ -7,7 +7,7 @@ use App\Models\Producto;
 use App\Models\categorias;
 use App\Models\Marcas;
 use App\Models\Departamentos;
-
+use App\Models\imagenes;
 class ProductosController extends Controller
 {
     /**
@@ -15,43 +15,45 @@ class ProductosController extends Controller
      */
     public function index(Request $request)
     {
-        $productos = Producto::all();
-        $TotalProductos = Producto::count();
-        $productos = Producto::with('categoria')->get();
-
-
         $categorias = categorias::all();
-        $marcas = marcas::all();
-        $departamentos = departamentos::all();
+        $marcas = Marcas::all();
+        $departamentos = Departamentos::all();
+        $imagenes = imagenes::all();
 
-        // 1. Iniciamos la consulta base
-    $query = Producto::query();
+        // 1. Consulta base con relación de categoría
+        $query = Producto::with('categoria');
 
-    // 2. Filtro por Buscador (Search)
-    $query->when($request->search, function ($q) use ($request) {
-        return $q->where('nombre', 'like', '%' . $request->search . '%')
-                 ->orWhere('descripcion', 'like', '%' . $request->search . '%');
-    });
+        // 2. Filtro por Buscador (Search) - agrupado para no romper otros filtros
+        $query->when($request->search, function ($q) use ($request) {
+            return $q->where(function ($sub) use ($request) {
+                $sub->where('nombre', 'like', '%' . $request->search . '%')
+                    ->orWhere('descripcion', 'like', '%' . $request->search . '%');
+            });
+        });
 
-    // 3. Filtro por Categorías (Array)
-    $query->when($request->categories, function ($q) use ($request) {
-        // "WhereIn" busca cualquier producto cuyo category_id esté en la lista enviada
-        return $q->whereIn('categoria_id', $request->categories);
-    });
+        // 3. Filtro por Categorías (Array de checkboxes)
+        $query->when($request->categories, function ($q) use ($request) {
+            return $q->whereIn('categoria_id', $request->categories);
+        });
 
-    // 4. Filtro por Precio (Rango)
-    $query->when($request->min_price, function ($q) use ($request) {
-        return $q->where('precio', '>=', $request->min_price);
-    });
-    
-    $query->when($request->max_price, function ($q) use ($request) {
-        return $q->where('precio', '<=', $request->max_price);
-    });
+        // 4. Filtro por Precio (Rango)
+        $query->when($request->min_price, function ($q) use ($request) {
+            return $q->where('precio', '>=', $request->min_price);
+        });
+        $query->when($request->max_price, function ($q) use ($request) {
+            return $q->where('precio', '<=', $request->max_price);
+        });
 
-        $productosquery = $query->paginate(12)->withQueryString();
+        // 5. Productos por página (por defecto 10)
+        $perPage = $request->input('per_page', 10);
+
+        // Total de productos en la base de datos (sin filtro)
+        $TotalProductos = Producto::count();
+
+        // Productos filtrados y paginados
+        $productos = $query->paginate($perPage)->withQueryString();
         
-        
-        return view('productos.productos-listado', compact('productos', 'TotalProductos', 'categorias', 'marcas', 'departamentos', 'productosquery'));
+        return view('productos.productos-listado', compact('productos', 'TotalProductos', 'categorias', 'marcas', 'departamentos', 'imagenes'));
     }
 
     /**
@@ -59,18 +61,24 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio' => 'required|numeric|min:0',
-            'existencia' => 'required|integer|min:0',
-            'categoria_id' => 'nullable|exists:categorias,id',
-            'marca_id' => 'nullable|exists:marcas,id',
-            'proveedor_id' => 'nullable|exists:proveedores,id',
-            'departamento_id' => 'required|exists:departamentos,id',
-        ]);
+        $producto = new Producto();
+        $producto->nombre = $request->nombre;
+        $producto->descripcion = $request->descripcion;
+        $producto->precio = $request->precio;
+        $producto->existencia = $request->existencia;
+        $producto->categoria_id = $request->categoria_id;
+        $producto->marca_id = $request->marca_id;
+        $producto->departamento_id = $request->departamento_id;
+        $producto->save();
 
-        $producto = Producto::create($validatedData);
+        $rutaimg = 'imagenes/productos/default.webp';
+        if($request->hasFile('imagen')){
+        $rutaimg = $request->file('imagen')->store('imagenes/productos', 'public');
+        }
+        $imagenes = new imagenes();
+        $imagenes->producto_id = $producto->id;
+        $imagenes->url_imagen = $rutaimg;
+        $imagenes->save();
 
         return redirect()->route('productos.index')
             ->with('success', 'Producto creado exitosamente');
@@ -126,4 +134,27 @@ class ProductosController extends Controller
         return redirect()->route('productos.index')
             ->with('success', 'Producto eliminado exitosamente');
     }
+
+    //guardar imagenes
+        public function storeimagen(Request $request)
+    {
+        $request->validate([
+            'producto_id' => 'required',
+            'url_imagen' => 'required',
+        ]);
+        $imagenes = new imagenes();
+        $imagenes->producto_id = $request->producto_id;
+        $imagenes->url_imagen = 'imagenes/productos/default.webp';
+        $imagenes->save();
+        return redirect()->route('imagenes.index');
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nuevaImg = 'producto_' . $producto->id_producto . '.' . $imagen->getClientOriginalExtension();
+            $ruta = $imagen->storeAs('imagenes/productos', $nuevaImg, 'public');
+            $imagenes->url_imagen = $ruta; // solo la ruta relativa, sin /storage/
+            $imagenes->save();
+        }
+    }
+
+
 }

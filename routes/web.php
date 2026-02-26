@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\DepartamentosController;
 use App\Http\Controllers\MarcasController;
+use App\Http\Controllers\imagenesController;
 
 
 
@@ -83,5 +84,10 @@ Route::post('/departamentos', [DepartamentosController::class, 'store'])->name('
 
 //rutas para marcas
 Route::post('/marcas', [MarcasController::class, 'store'])->name('marcas.store');
+
+//rutas para imagenes
+Route::post('/imagenes', [imagenesController::class, 'store'])->name('imagenes.store');
+Route::get('/imagenes', [imagenesController::class, 'index'])->name('imagenes.index');
+
 
 
