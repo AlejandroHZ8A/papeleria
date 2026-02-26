@@ -13,12 +13,22 @@ class CategoriasController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'nombre' => 'required|string|max:255',
-            'imagen' => 'nullable|string',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
-
-        $categoria = Categorias::create($validatedData);
+       
+        $categoria = new categorias();
+        $categoria->nombre = $request->nombre;
+        
+        $rutaimg = 'imagenes/categorias/default.webp';
+        
+        if($request->hasFile('imagen')){
+            $rutaimg = $request->file('imagen')->store('imagenes/categorias', 'public');
+        }
+        
+        $categoria->imagen = $rutaimg;
+        $categoria->save();
 
         return redirect()->route('productos.index')
             ->with('success', 'Categoria creada exitosamente');

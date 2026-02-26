@@ -12,12 +12,22 @@ class DepartamentosController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+         $request->validate([
             'nombre' => 'required|string|max:255',
-            'imagen' => 'nullable|string',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        $departamento = Departamentos::create($validatedData);
+        $departamento = new Departamentos();
+        $departamento->nombre = $request->nombre;
+        
+        $rutaimg = 'imagenes/departamentos/default.webp';
+        
+        if($request->hasFile('imagen')){
+            $rutaimg = $request->file('imagen')->store('imagenes/departamentos', 'public');
+        }
+        
+        $departamento->imagen = $rutaimg;
+        $departamento->save();
 
         return redirect()->route('productos.index')
             ->with('success', 'Departamento creado exitosamente');
