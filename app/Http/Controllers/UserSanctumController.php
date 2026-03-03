@@ -11,7 +11,7 @@ class UserSanctumController extends Controller
     {
 
         try {
-            $credenciagitles = $request->validate([
+            $credenciales = $request->validate([
                 'email' => 'required|email',
                 'password' => 'required',
             ]);
