@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     | pedidos 
     |--------------------------------------------------------------------------
     */
+   // Route::get('/pedidos', [PedidoController::class, 'global']);
     Route::get('/pedidos/historial/{cliente_id}', [PedidoController::class, 'index']);
     Route::get('/pedidos/{id}', [PedidoController::class, 'show']);
     Route::post('/pedidos', [PedidoController::class, 'store']);

@@ -12,12 +12,40 @@ use Carbon\Carbon;
 
 class PedidoController extends Controller
 {
+    /**
+     * Ver todos los pedidos registrados en el sistema (Global)
+     * GET /api/pedidos
+     */
+    public function global()
+    {
+        $pedidos = Pedido::with(['cliente', 'productos'])
+                        ->orderBy('fecha', 'desc')
+                        ->get()
+                        ->map(function ($pedido) {
+                            $pedido->estado_texto = ($pedido->estado == 1) ? 'Activo' : 'Cancelado';
+                            return $pedido;
+                        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $pedidos
+        ], 200);
+    }
+
+    /**
+     * Ver historial de pedidos de un cliente específico.
+     * GET /api/pedidos/historial/{cliente_id}
+     */
     public function index($cliente_id)
     {
         $pedidos = Pedido::with('productos')
                         ->where('cliente_id', $cliente_id)
                         ->orderBy('fecha', 'desc')
-                        ->get();
+                        ->get()
+                        ->map(function ($pedido) {
+                            $pedido->estado_texto = ($pedido->estado == 1) ? 'Activo' : 'Cancelado';
+                            return $pedido;
+                        });
 
         return response()->json([
             'success' => true,
@@ -102,17 +130,40 @@ class PedidoController extends Controller
 
     public function destroy($id)
     {
-        $pedido = Pedido::find($id);
+        $pedido = Pedido::with('productos')->find($id);
 
         if (!$pedido) {
             return response()->json(['message' => 'Pedido no encontrado'], 404);
         }
 
-        $pedido->update(['estado' => 0]);
+        // Evitar devolver stock si el pedido ya estaba cancelado
+        if ($pedido->estado == 0) {
+            return response()->json(['message' => 'El pedido ya se encuentra cancelado'], 400);
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Pedido cancelado correctamente'
-        ], 200);
+        try {
+            return DB::transaction(function () use ($pedido) {
+                // 1. REGRESAR EL STOCK AL INVENTARIO
+                foreach ($pedido->productos as $producto) {
+                    $cantidad_a_devolver = $producto->pivot->cantidad;
+                    
+                    $producto->existencia += $cantidad_a_devolver;
+                    $producto->save();
+                }
+
+                // 2. CAMBIAR EL ESTADO DEL PEDIDO A CANCELADO (0)
+                $pedido->update(['estado' => 0]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pedido cancelado y stock devuelto al inventario'
+                ], 200);
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al cancelar el pedido: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }
