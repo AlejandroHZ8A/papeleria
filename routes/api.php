@@ -14,11 +14,22 @@ use App\Http\Controllers\MarcasController;
 use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\DepartamentosController;
 use App\Http\Controllers\ImagenesController;
-
+use App\Http\Controllers\PedidoController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+    /*
+    |--------------------------------------------------------------------------
+    | pedidos 
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/pedidos/historial/{cliente_id}', [PedidoController::class, 'index']);
+    Route::get('/pedidos/{id}', [PedidoController::class, 'show']);
+    Route::post('/pedidos', [PedidoController::class, 'store']);
+    Route::delete('/pedidos/{id}', [PedidoController::class, 'destroy']);
+
  /*
     |--------------------------------------------------------------------------
     | productos 
