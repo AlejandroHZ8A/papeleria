@@ -9,11 +9,79 @@ use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\RolEmpleadoController;
 use App\Http\Controllers\ClienteAuthController;
 use App\Http\Controllers\ApiController;
-
+use App\Http\Controllers\ProductosController;
+use App\Http\Controllers\MarcasController;
+use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\DepartamentosController;
+use App\Http\Controllers\ImagenesController;
+use App\Http\Controllers\PedidoController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+    /*
+    |--------------------------------------------------------------------------
+    | pedidos 
+    |--------------------------------------------------------------------------
+    */
+   // Route::get('/pedidos', [PedidoController::class, 'global']);
+    Route::get('/pedidos/historial/{cliente_id}', [PedidoController::class, 'index']);
+    Route::get('/pedidos/{id}', [PedidoController::class, 'show']);
+    Route::post('/pedidos', [PedidoController::class, 'store']);
+    Route::delete('/pedidos/{id}', [PedidoController::class, 'destroy']);
+
+ /*
+    |--------------------------------------------------------------------------
+    | productos 
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/productos', [ProductosController::class, 'index']);
+    Route::get('/productos/{id}', [ProductosController::class, 'show']);
+    Route::put('/productos/{id}', [ProductosController::class, 'update']);
+    Route::post('/productos/agregar', [ProductosController::class, 'store']);
+    Route::delete('/productos/borrar/{id}', [ProductosController::class, 'destroy']);
+    
+    /*
+    |--------------------------------------------------------------------------
+    | categorias
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/categorias', [CategoriasController::class, 'index']);
+    Route::get('/categorias/{id}', [CategoriasController::class, 'show']);
+    Route::put('/categorias/{id}', [CategoriasController::class, 'update']);
+    Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy']);
+    
+    /*
+    |--------------------------------------------------------------------------
+    | marcas
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/marcas', [MarcasController::class, 'index']);
+    Route::get('/marcas/{id}', [MarcasController::class, 'show']);
+    Route::put('/marcas/{id}', [MarcasController::class, 'update']);
+    Route::delete('/marcas/{id}', [MarcasController::class, 'destroy']);
+    
+    /*
+    |--------------------------------------------------------------------------
+    | departamentos
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/departamentos', [DepartamentosController::class, 'index']);
+    Route::get('/departamentos/{id}', [DepartamentosController::class, 'show']);
+    Route::put('/departamentos/{id}', [DepartamentosController::class, 'update']);
+    Route::delete('/departamentos/{id}', [DepartamentosController::class, 'destroy']);
+    
+    /*
+    |--------------------------------------------------------------------------
+    | imagenes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/imagenes', [ImagenesController::class, 'index']);
+    Route::get('/imagenes/{id}', [ImagenesController::class, 'show']);
+    Route::put('/imagenes/{id}', [ImagenesController::class, 'update']);
+    Route::delete('/imagenes/{id}', [ImagenesController::class, 'destroy']);
 
 
 /*
@@ -74,4 +142,7 @@ Route::middleware('auth:clientes')->group(function () {
 
     
 
+ 
 });
+
+   
