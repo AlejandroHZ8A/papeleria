@@ -56,12 +56,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
     Route::post('/cliente/login', [ClienteAuthController::class, 'login']);
-    Route::post('/clientes', [ClientesController::class, 'store']);
-
-Route::middleware('auth:clientes')->group(function () {
-
-    Route::post('/cliente/logout', [ClienteAuthController::class, 'logout']);
-
     /*
     |--------------------------------------------------------------------------
     | CLIENTES
@@ -72,5 +66,12 @@ Route::middleware('auth:clientes')->group(function () {
     Route::get('/clientes/{id}', [ClientesController::class, 'show']);
     Route::put('/clientes/{id}', [ClientesController::class, 'update']);
     Route::delete('/clientes/{id}', [ClientesController::class, 'destroy']);
+    Route::post('/clientes', [ClientesController::class, 'store']);
+
+Route::middleware('auth:clientes')->group(function () {
+
+    Route::post('/cliente/logout', [ClienteAuthController::class, 'logout']);
+
+    
 
 });

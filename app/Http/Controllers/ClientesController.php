@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Clientes;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 
 class ClientesController extends Controller
@@ -15,7 +17,7 @@ class ClientesController extends Controller
         $admins = clientes::all();
 
         foreach ($admins as $admin) {
-            $admin->imagen=asset($admin->imagen);
+            $admin->imagen = asset($admin->imagen);
         }
         //return view('/Clientes/Clientes-listado')->with('admins', $admins);
         return response()->json(['resultado' => true, 'datos' => $admins], 200);
@@ -80,7 +82,7 @@ class ClientesController extends Controller
         }
 
         //return redirect('/clientes');
-        $admin->imagen=asset($admin->imagen);
+        $admin->imagen = asset($admin->imagen);
         return response()->json(['resultado' => true, 'datos' => $admin, 'errors' => ''], 201);
     }
 
@@ -104,7 +106,7 @@ class ClientesController extends Controller
             'apellido_p' => 'required|string',
             'apeliido_m' => 'required|string',
             'correo' => 'required|email|unique:clientes,correo,' . $id,
-            'contrasena' => 'required|min:3',
+            //'contrasena' => 'required|min:3',
             'estado' => 'required|string',
             'calle' => 'required|string',
             'num_ext' => 'required',
@@ -126,7 +128,7 @@ class ClientesController extends Controller
         if ($req->filled('contrasena')) {
             $admin->contrasena = Hash::make($req->contrasena);
         }
-        $admin->imagen = '/storage/imagenes/administradores/default.jpg';
+        //$admin->imagen = '/storage/imagenes/logopapeleria.png';
         $admin->estado = $req->estado;
         $admin->calle = $req->calle;
         $admin->num_int = $req->num_int;
@@ -140,14 +142,14 @@ class ClientesController extends Controller
 
         if ($req->hasFile('imagen')) {
             $imagen = $req->file('imagen');
-            $nuevo_nombre = 'administrador_' . $admin->id . '.jpg';
-            $ruta = $imagen->storeAs('imagenes/administradores', $nuevo_nombre, 'public');
+            $nuevo_nombre = 'clientes' . $admin->id . '.jpg';
+            $ruta = $imagen->storeAs('imagenes/clientes', $nuevo_nombre, 'public');
             $admin->imagen = '/storage/' . $ruta;
             $admin->save();
         }
 
         //return redirect('/clientes');
-        $admin->imagen=asset($admin->imagen);
+        $admin->imagen = asset($admin->imagen);
         return response()->json(['resultado' => true, 'datos' => $admin, 'errors' => ''], 201);
     }
 
@@ -160,20 +162,19 @@ class ClientesController extends Controller
         );
 
         if ($validator->fails()) {
-            return response()->json(['resultado' => false, 'datos' => null, 'mensaje'=>'No existe ese id', 'errores' => $validator->errors()], 422);
+            return response()->json(['resultado' => false, 'datos' => null, 'mensaje' => 'No existe ese id', 'errores' => $validator->errors()], 422);
         }
 
         $clientes = Clientes::find($id);
         if (!$clientes) {
             return response()->json(['resultado' => false, 'datos' => $clientes], 404);
         }
-        $clientes->imagen=asset($clientes->imagen);
+        $clientes->imagen = asset($clientes->imagen);
         return response()->json(['resultado' => true, 'datos' => $clientes], 200);
     }
 
     public function destroy($id)
     {
-
         $validator = Validator::make(
             ['id' => $id],
             ['id' => 'required|integer|min:1|exists:clientes,id']
@@ -186,12 +187,20 @@ class ClientesController extends Controller
         $cliente = Clientes::find($id);
 
         if (!$cliente) {
-            return redirect('/clientes')->with('error', 'Cliente no encontrado');
+            return response()->json(['resultado' => false, 'mensaje' => 'Cliente no encontrado'], 404);
+        }
+
+        if ($cliente->imagen && $cliente->imagen !== '/storage/imagenes/logopapeleria.png' && $cliente->imagen !== '/storage/imagenes/administradores/default.jpg') {
+
+            $ruta_relativa = str_replace('/storage/', '', $cliente->imagen);
+
+            if (Storage::disk('public')->exists($ruta_relativa)) {
+                Storage::disk('public')->delete($ruta_relativa);
+            }
         }
 
         $cliente->delete();
 
-        //return redirect('/clientes')->with('success', 'Cliente eliminado correctamente');
         return response()->json(['resultado' => true, 'datos' => '', 'errors' => ''], 201);
     }
 }
