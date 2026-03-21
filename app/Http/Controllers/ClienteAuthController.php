@@ -55,4 +55,14 @@ class ClienteAuthController extends Controller
             'mensaje' => 'Token de cliente eliminado'
         ], 200);
     }
+
+    public function perfil(Request $request)
+    {
+        return response()->json([
+            'success' => true,
+            'datos' => $request->user()
+        ], 200);
+    }
+
+
 }

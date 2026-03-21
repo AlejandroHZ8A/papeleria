@@ -22,7 +22,7 @@ class ProductosController extends Controller
         $imagenes = imagenes::all();
 
         // 1. Consulta base con relación de categoría
-        $query = Producto::with('categoria');
+        $query = Producto::with(['categoria', 'imagenes']);
 
         // 2. Filtro por Buscador (Search) - agrupado para no romper otros filtros
         $query->when($request->search, function ($q) use ($request) {
@@ -53,25 +53,51 @@ class ProductosController extends Controller
 
         // Productos filtrados y paginados
         $productos = $query->paginate($perPage)->withQueryString();
-        
+
         //return view('productos.productos-listado', compact('productos', 'TotalProductos', 'categorias', 'marcas', 'departamentos', 'imagenes'));
-            //api rest     
+        //api rest     
+        $perPage = $request->input('per_page', 10);
+        $TotalProductos = Producto::count();
+        $productos = $query->paginate($perPage)->withQueryString();
+        // 1. TRANSFORMACIÓN: Aplicamos asset() para tener la URL pública completa
+        foreach ($productos as $producto) {
+            foreach ($producto->imagenes as $imagen) {
+                // Convertimos la ruta relativa en una URL completa
+                $imagen->url_imagen = asset('storage/' . $imagen->url_imagen);
+            }
+        }
+
+        // 2. ¡RETORNAMOS LA VISTA, NO EL JSON!
+        // Le pasamos todas las variables que la vista necesita con compact()
         return response()->json([
-            'productos' => $productos,
-            'TotalProductos' => $TotalProductos,
-            'categorias' => $categorias,
-            'marcas' => $marcas,
-            'departamentos' => $departamentos,
-            'imagenes' => $imagenes
-        ],200); 
+            'resultado' => true,
+            'datos' => [
+                'productos' => $productos // Laravel automáticamente formatea la paginación
+            ]
+        ], 200);
     }
     //mostrar un producto por id
     public function show($id)
     {
-        $producto = Producto::findOrFail($id);
+        $producto = Producto::with(['imagenes', 'categoria', 'marca', 'departamento'])->find($id);
+
+        if (!$producto) {
+            return response()->json([
+                'resultado' => false,
+                'datos' => null,
+                'mensaje' => 'No existe ese producto'
+            ], 404);
+        }
+
+        // Aplicamos asset() a las imágenes de este producto en específico
+        foreach ($producto->imagenes as $imagen) {
+            $imagen->url_imagen = asset('storage/' . $imagen->url_imagen);
+        }
+
         return response()->json([
-            'producto' => $producto
-        ],200); 
+            'resultado' => true,
+            'datos' => $producto
+        ], 200);
     }
     //
 
@@ -90,23 +116,31 @@ class ProductosController extends Controller
         $producto->departamento_id = $request->departamento_id;
         $producto->save();
 
-        $rutaimg = 'imagenes/productos/default.webp';
-        if($request->hasFile('imagen')){
-        $rutaimg = $request->file('imagen')->store('imagenes/productos', 'public');
-        }
-        $imagenes = new imagenes();
-        $imagenes->producto_id = $producto->id;
-        $imagenes->url_imagen = $rutaimg;
-        $imagenes->save();
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nuevaImg = 'producto_' . $producto->id . '_' . time() . '.' . $imagen->getClientOriginalExtension();
+            $ruta = $imagen->storeAs('imagenes/productos', $nuevaImg, 'public');
 
-        //return redirect()->route('productos.index')
-        //    ->with('success', 'Producto creado exitosamente');
+            $producto->imagenes()->create([
+                'url_imagen' => $ruta
+            ]);
+        }
+
+        // Recargamos las imágenes recién guardadas
+        $producto->load('imagenes');
+
+        // Convertimos a URL pública para la respuesta
+        foreach ($producto->imagenes as $img) {
+            $img->url_imagen = asset('storage/' . $img->url_imagen);
+        }
+
         return response()->json([
-            'producto' => $producto,
-            'message' => 'Producto creado exitosamente'
-        ],200); 
+            'resultado' => true,
+            'datos' => $producto,
+            'mensaje' => 'Producto creado exitosamente'
+        ], 201);
     }
-           /**
+    /**
      * Guardar una nueva categoria
      */
     public function storecategoria(Request $request)
@@ -118,12 +152,12 @@ class ProductosController extends Controller
 
         $categoria = Categorias::create($validatedData);
 
-       // return redirect()->route('productos.index')
+        // return redirect()->route('productos.index')
         //    ->with('success', 'Categoria creada exitosamente');
         return response()->json([
             'categoria' => $categoria,
             'message' => 'Categoria creada exitosamente'
-        ],200); 
+        ], 200);
     }
 
     /**
@@ -131,27 +165,51 @@ class ProductosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $producto = Producto::findOrFail($id);
+        $producto = Producto::find($id);
 
-        $validatedData = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'nullable|string',
-            'precio' => 'required|numeric|min:0',
-            'existencia' => 'required|integer|min:0',
-            'categoria_id' => 'nullable|exists:categorias,id',
-            'marca_id' => 'nullable|exists:marcas,id',
-            'proveedor_id' => 'nullable|exists:proveedores,id',
-            'departamento_id' => 'required|exists:departamentos,id',
-        ]);
+        if (!$producto) {
+            return response()->json(['resultado' => false, 'mensaje' => 'Producto no encontrado'], 404);
+        }
 
-        $producto->update($validatedData);
+        $producto->update($request->only([
+            'nombre',
+            'descripcion',
+            'precio',
+            'existencia',
+            'categoria_id',
+            'marca_id',
+            'departamento_id'
+        ]));
 
-       // return redirect()->route('productos.index')
-        //    ->with('success', 'Producto actualizado exitosamente');
+        if ($request->hasFile('imagen')) {
+            // Borrar vieja
+            foreach ($producto->imagenes as $imgVieja) {
+                Storage::disk('public')->delete($imgVieja->url_imagen);
+            }
+            $producto->imagenes()->delete();
+
+            // Subir nueva
+            $imagen = $request->file('imagen');
+            $nuevaImg = 'producto_' . $producto->id . '_' . time() . '.' . $imagen->getClientOriginalExtension();
+            $ruta = $imagen->storeAs('imagenes/productos', $nuevaImg, 'public');
+
+            $producto->imagenes()->create([
+                'url_imagen' => $ruta
+            ]);
+        }
+
+        $producto->load('imagenes');
+
+        // Convertimos a URL pública para la respuesta
+        foreach ($producto->imagenes as $img) {
+            $img->url_imagen = asset('storage/' . $img->url_imagen);
+        }
+
         return response()->json([
-            'producto' => $producto,
-            'message' => 'Producto actualizado exitosamente'
-        ],200); 
+            'resultado' => true,
+            'datos' => $producto,
+            'mensaje' => 'Producto actualizado exitosamente'
+        ], 200);
     }
 
     /**
@@ -159,24 +217,28 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        $imagenes = imagenes::where('producto_id', $id)->get();
-        foreach ($imagenes as $imagen) {
-            Storage::delete($imagen->url_imagen);
-            $imagen->delete();
+        // Traemos el producto con sus imágenes
+        $producto = Producto::with('imagenes')->findOrFail($id);
+
+        // 1. Destruir las imágenes físicas del disco
+        foreach ($producto->imagenes as $imagen) {
+            Storage::disk('public')->delete($imagen->url_imagen);
         }
-        $producto = Producto::findOrFail($id);
+
+        // 2. Destruir los registros de las imágenes en la base de datos
+        $producto->imagenes()->delete();
+
+        // 3. Destruir el producto (Las categorías y marcas se quedan intactas)
         $producto->delete();
 
-       // return redirect()->route('productos.index')
-        //    ->with('success', 'Producto eliminado exitosamente');
         return response()->json([
             'producto' => $producto,
-            'message' => 'Producto e imagenes eliminados exitosamente'
-        ],200); 
+            'message' => 'Producto y sus imágenes eliminados definitivamente'
+        ], 200);
     }
 
     //guardar imagenes
-        public function storeimagen(Request $request)
+    public function storeimagen(Request $request)
     {
         $request->validate([
             'producto_id' => 'required',
@@ -196,5 +258,39 @@ class ProductosController extends Controller
         }
     }
 
+
+    public function subirImagen(Request $request, $id)
+    {
+        // 1. Validamos
+        $request->validate([
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+        ]);
+
+        $producto = Producto::findOrFail($id);
+
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+
+            // 2. Armamos el nombre personalizado que quería tu profe
+            // Le agrego time() para que si le cambias la foto no se quede guardada en caché la vieja
+            $nuevaImg = 'producto_' . $producto->id . '_' . time() . '.' . $imagen->getClientOriginalExtension();
+
+            // 3. Guardamos la imagen. Esto CREA la carpeta imagenes/productos automáticamente
+            $ruta = $imagen->storeAs('imagenes/productos', $nuevaImg, 'public');
+
+            // 4. Guardamos SOLO la ruta relativa en la BD (ej: imagenes/productos/producto_1_170000.jpg)
+            $producto->imagenes()->create([
+                'url_imagen' => $ruta
+            ]);
+
+            return response()->json([
+                'mensaje' => 'Imagen subida con éxito',
+                // Retornamos la URL completa para que la veas en Postman y confirmes que existe
+                'url_completa' => url('storage/' . $ruta)
+            ], 201);
+        }
+
+        return response()->json(['mensaje' => 'Hubo un error al procesar la imagen'], 400);
+    }
 
 }

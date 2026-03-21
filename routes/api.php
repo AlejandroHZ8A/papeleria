@@ -20,68 +20,70 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-    /*
-    |--------------------------------------------------------------------------
-    | pedidos 
-    |--------------------------------------------------------------------------
-    */
-   // Route::get('/pedidos', [PedidoController::class, 'global']);
-    Route::get('/pedidos/historial/{cliente_id}', [PedidoController::class, 'index']);
-    Route::get('/pedidos/{id}', [PedidoController::class, 'show']);
-    Route::post('/pedidos', [PedidoController::class, 'store']);
-    Route::delete('/pedidos/{id}', [PedidoController::class, 'destroy']);
+/*
+|--------------------------------------------------------------------------
+| pedidos 
+|--------------------------------------------------------------------------
+*/
+// Route::get('/pedidos', [PedidoController::class, 'global']);
+Route::get('/pedidos/historial/{cliente_id}', [PedidoController::class, 'index']);
+Route::get('/pedidos/{id}', [PedidoController::class, 'show']);
+Route::post('/pedidos', [PedidoController::class, 'store']);
+Route::delete('/pedidos/{id}', [PedidoController::class, 'destroy']);
 
- /*
-    |--------------------------------------------------------------------------
-    | productos 
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/productos', [ProductosController::class, 'index']);
-    Route::get('/productos/{id}', [ProductosController::class, 'show']);
-    Route::put('/productos/{id}', [ProductosController::class, 'update']);
-    Route::post('/productos/agregar', [ProductosController::class, 'store']);
-    Route::delete('/productos/borrar/{id}', [ProductosController::class, 'destroy']);
+/*
+   |--------------------------------------------------------------------------
+   | productos 
+   |--------------------------------------------------------------------------
+   */
     
-    /*
-    |--------------------------------------------------------------------------
-    | categorias
-    |--------------------------------------------------------------------------
-    */
+Route::get('/productos', [ProductosController::class, 'index']);
+Route::get('/productos/{id}', [ProductosController::class, 'show']);
+Route::put('/productos/{id}', [ProductosController::class, 'update']);  
+Route::post('/productos', [ProductosController::class, 'store']);
+Route::delete('/productos/{id}', [ProductosController::class, 'destroy']);
 
-    Route::get('/categorias', [CategoriasController::class, 'index']);
-    Route::get('/categorias/{id}', [CategoriasController::class, 'show']);
-    Route::put('/categorias/{id}', [CategoriasController::class, 'update']);
-    Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy']);
-    
-    /*
-    |--------------------------------------------------------------------------
-    | marcas
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/marcas', [MarcasController::class, 'index']);
-    Route::get('/marcas/{id}', [MarcasController::class, 'show']);
-    Route::put('/marcas/{id}', [MarcasController::class, 'update']);
-    Route::delete('/marcas/{id}', [MarcasController::class, 'destroy']);
-    
-    /*
-    |--------------------------------------------------------------------------
-    | departamentos
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/departamentos', [DepartamentosController::class, 'index']);
-    Route::get('/departamentos/{id}', [DepartamentosController::class, 'show']);
-    Route::put('/departamentos/{id}', [DepartamentosController::class, 'update']);
-    Route::delete('/departamentos/{id}', [DepartamentosController::class, 'destroy']);
-    
-    /*
-    |--------------------------------------------------------------------------
-    | imagenes
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/imagenes', [ImagenesController::class, 'index']);
-    Route::get('/imagenes/{id}', [ImagenesController::class, 'show']);
-    Route::put('/imagenes/{id}', [ImagenesController::class, 'update']);
-    Route::delete('/imagenes/{id}', [ImagenesController::class, 'destroy']);
+Route::post('/productos/{id}/imagenes', [ProductosController::class, 'subirImagen']);
+/*
+|--------------------------------------------------------------------------
+| categorias
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/categorias', [CategoriasController::class, 'index']);
+Route::get('/categorias/{id}', [CategoriasController::class, 'show']);
+Route::put('/categorias/{id}', [CategoriasController::class, 'update']);
+Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy']);
+
+/*
+|--------------------------------------------------------------------------
+| marcas
+|--------------------------------------------------------------------------
+*/
+Route::get('/marcas', [MarcasController::class, 'index']);
+Route::get('/marcas/{id}', [MarcasController::class, 'show']);
+Route::put('/marcas/{id}', [MarcasController::class, 'update']);
+Route::delete('/marcas/{id}', [MarcasController::class, 'destroy']);
+
+/*
+|--------------------------------------------------------------------------
+| departamentos
+|--------------------------------------------------------------------------
+*/
+Route::get('/departamentos', [DepartamentosController::class, 'index']);
+Route::get('/departamentos/{id}', [DepartamentosController::class, 'show']);
+Route::put('/departamentos/{id}', [DepartamentosController::class, 'update']);
+Route::delete('/departamentos/{id}', [DepartamentosController::class, 'destroy']);
+
+/*
+|--------------------------------------------------------------------------
+| imagenes
+|--------------------------------------------------------------------------
+*/
+Route::get('/imagenes', [ImagenesController::class, 'index']);
+Route::get('/imagenes/{id}', [ImagenesController::class, 'show']);
+Route::put('/imagenes/{id}', [ImagenesController::class, 'update']);
+Route::delete('/imagenes/{id}', [ImagenesController::class, 'destroy']);
 
 
 /*
@@ -123,26 +125,23 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-    Route::post('/cliente/login', [ClienteAuthController::class, 'login']);
-    /*
-    |--------------------------------------------------------------------------
-    | CLIENTES
-    |--------------------------------------------------------------------------
-    */
+Route::post('/cliente/login', [ClienteAuthController::class, 'login']);
+/*
+|--------------------------------------------------------------------------
+| CLIENTES
+|--------------------------------------------------------------------------
+*/
 
-    Route::get('/clientes', [ClientesController::class, 'index']);
-    Route::get('/clientes/{id}', [ClientesController::class, 'show']);
-    Route::put('/clientes/{id}', [ClientesController::class, 'update']);
-    Route::delete('/clientes/{id}', [ClientesController::class, 'destroy']);
-    Route::post('/clientes', [ClientesController::class, 'store']);
+Route::get('/clientes', [ClientesController::class, 'index']);
+Route::get('/clientes/{id}', [ClientesController::class, 'show']);
+Route::put('/clientes/{id}', [ClientesController::class, 'update']);
+Route::delete('/clientes/{id}', [ClientesController::class, 'destroy']);
+Route::post('/clientes', [ClientesController::class, 'store']);
 
 Route::middleware('auth:clientes')->group(function () {
 
     Route::post('/cliente/logout', [ClienteAuthController::class, 'logout']);
+    Route::get('/cliente/perfil', [ClienteAuthController::class, 'perfil']);
 
-    
-
- 
 });
 
-   

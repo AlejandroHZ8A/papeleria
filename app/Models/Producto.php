@@ -42,5 +42,10 @@ class Producto extends Model
         return $this->belongsTo(Departamentos::class);
     }
 
+    public function imagenes()
+    {
+        // Asegúrate de que tu modelo se llame 'imagenes' o 'Imagenes' (recomiendo mayúscula inicial).
+        return $this->hasMany(imagenes::class, 'producto_id', 'id');
+    }
 
 }
